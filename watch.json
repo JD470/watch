@@ -2,6 +2,6 @@
     "root": "src/",
     "commands":[
         "cargo build",
-        "echo Compilattion finished!"
+        "echo Compilation finished!"
     ]
 }
