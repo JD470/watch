@@ -1,4 +1,4 @@
-use std::{process::Command, fs, os::windows::prelude::MetadataExt, time::Duration};
+use std::{process::Command, time::Duration};
 
 use files::*;
 use serde_derive::Deserialize;
@@ -14,20 +14,22 @@ struct ToWatch {
 
 fn main() {
     let file = open_file("watch.json");
-
+    
     let to_watch: ToWatch = serde_json::from_str(file.as_str()).expect("JSON was not well-formatted");
     let root = to_watch.root;
     let commands = to_watch.commands;
-    let mut directory = get_files(root.clone(), ".rs");
-
+    let mut directory = get_all_files(&root, ".rs");
+    
     let mut times: Vec<u64> = get_times(&directory);
+
     loop{
-        directory = get_files(root.clone(), ".rs");
+        directory = get_all_files(&root, ".rs");
         let temp: Vec<u64> = get_times(&directory);
         if compare_vecs(&times, &temp) {
             times = temp;
             execute_args(&commands);
         }
+        
         std::thread::sleep(Duration::from_millis(50));
     }
 }
@@ -40,10 +42,6 @@ fn compare_vecs(temp1: &Vec<u64>, temp2: &Vec<u64>) -> bool{
         }
     }
     false
-}
-
-fn get_times(files: &Vec<String>) -> Vec<u64>{
-    files.into_iter().map(|i| fs::metadata(i).unwrap().last_write_time()).collect()
 }
 
 fn execute_args(commands: &Vec<String>){
