@@ -6,7 +6,7 @@ mod json_struct;
 use files::*;
 use json_struct::*;
 
-fn main() {
+fn main(){
     let file = open_file("watch.json");
     
     let to_watch: Watch = serde_json::from_str(file.as_str()).expect("JSON was not well-formatted");
@@ -46,15 +46,16 @@ fn compare_vecs(temp1: &Vec<u64>, temp2: &Vec<u64>) -> bool{
 
 fn execute_args(commands: &Vec<String>){
     for i in commands{
-
         print!("{}",
             String::from_utf8
             (
-                Command::new("cmd").args
-                ([
+                Command::new("cmd")
+                .args(
+                [
                     "/C", &i.to_string()
-                ]).output().unwrap().stdout
+                ]
+                ).output().unwrap().stdout
             ).unwrap()
-        )
+        );
     }
 }
