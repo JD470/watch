@@ -1,11 +1,5 @@
 # watch
 
-<style>
-p{
-    font-size: 17px; 
-}
-</style>
-
 watch is a program that notices a change in a file of a directory and sub-directories to then execute a list of given commands.
 
 <br>
