@@ -47,7 +47,7 @@ fn compare_vecs(temp1: &Vec<u64>, temp2: &Vec<u64>) -> bool{
 fn execute_args(commands: &Vec<String>){
     for i in commands{
 
-        println!("{}",
+        print!("{}",
             String::from_utf8
             (
                 Command::new("cmd").args
