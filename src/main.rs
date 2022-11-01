@@ -1,29 +1,24 @@
 use std::{process::Command, time::Duration};
 
-use files::*;
-use serde_derive::Deserialize;
-
 mod files;
+mod json_struct;
 
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "snake_case")]
-struct ToWatch {
-    root: String,
-    commands: Vec<String>,
-}
+use files::*;
+use json_struct::*;
 
 fn main() {
     let file = open_file("watch.json");
     
-    let to_watch: ToWatch = serde_json::from_str(file.as_str()).expect("JSON was not well-formatted");
-    let root = to_watch.root;
-    let commands = to_watch.commands;
-    let mut directory = get_all_files(&root, ".rs");
+    let to_watch: Watch = serde_json::from_str(file.as_str()).expect("JSON was not well-formatted");
+    let root = to_watch.watch.root;
+    let format = to_watch.watch.format;
+    let commands = to_watch.watch.commands;
     
+    let mut directory = get_all_files(&root, &format);
     let mut times: Vec<u64> = get_times(&directory);
 
     loop{
-        directory = get_all_files(&root, ".rs");
+        directory = get_all_files(&root, &format);
         let temp: Vec<u64> = get_times(&directory);
 
         if compare_vecs(&times, &temp) {

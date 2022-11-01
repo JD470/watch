@@ -7,7 +7,7 @@ pub fn get_files(directory: &String, format: &str) -> Vec<String>{
 
     for path in paths {
         let p = path.unwrap().path().display().to_string();
-        
+
         if p.ends_with(lang_format) {
             ps.push(p);
         }
@@ -18,7 +18,7 @@ pub fn get_files(directory: &String, format: &str) -> Vec<String>{
 pub fn get_folders(directory: &String) -> Vec<String>{
     let mut temp: Vec<String> = vec![];
 
-    for file in fs::read_dir(directory).expect(&format!("{}", directory)){
+    for file in fs::read_dir(directory).unwrap(){
         let temp1 = file.unwrap();
 
         if temp1.path().is_dir(){
@@ -41,7 +41,6 @@ pub fn get_all_folders(root: &String) -> Vec<String>{
     let mut temp1: Vec<String>;
 
     loop {
-
         for i in temp.clone(){
             ret.push(i);
         }
@@ -77,8 +76,11 @@ pub fn get_all_files(root: &String, format: &str) -> Vec<String>{
 }
 
 pub fn open_file(filename: &str) -> String{
-    String::from_utf8(fs::read(filename.clone())
-        .expect(&format!("{} was not found", filename.clone())))
+    String::from_utf8(
+        fs::read(filename.clone())
+            .expect(&format!("{} was not found", filename.clone())
+        )
+    )
         .unwrap()
 }
 
