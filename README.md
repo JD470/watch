@@ -22,7 +22,7 @@ To use it, create a watch.json file, and then you'll need to at least put a watc
             {
                 "keys": ["LAlt", "LShift"],
                 "commands": [
-                    "echo Running the program..."
+                    "start cargo run"
                 ]
             }
         ]

@@ -12,7 +12,7 @@
             {
                 "keys": ["LAlt", "LShift"],
                 "commands": [
-                    "echo Running the program..."
+                    "start cargo run"
                 ]
             }
         ]

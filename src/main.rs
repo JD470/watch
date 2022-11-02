@@ -1,4 +1,4 @@
-use std::{process::Command, time::Duration};
+use std::{process::Command, time::Duration, str::FromStr, fs, io::Write};
 
 mod files;
 mod json_struct;
@@ -9,7 +9,35 @@ use files::*;
 use keys::*;
 use json_struct::*;
 
+#[allow(unused_must_use)] // For the init function("watch.write_all()" to be precise)
+
 fn main(){
+    let args: Vec<String> = std::env::args().collect();
+    if args.contains(&String::from_str("init").unwrap()){
+        let mut watch = fs::File::create("watch.json").unwrap();
+        watch.write_all(
+r#"{
+    "watch": {
+        "root": "src/",
+        "format": "",
+        "commands":[
+            
+        ]
+    },
+    "keys": {
+        "events":[
+            {
+                "keys": [],
+                "commands": [
+                    
+                ]
+            }
+        ]
+    }
+}"#.as_bytes());
+        return;
+    }
+
     let file = open_file("watch.json");
     
     let to_watch: Watch = serde_json::from_str(file.as_str()).expect("JSON was not well-formatted");
