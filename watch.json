@@ -6,5 +6,15 @@
             "cargo build",
             "echo Compilation finished!"
         ]
+    },
+    "keys": {
+        "events":[
+            {
+                "keys": ["LAlt", "LShift"],
+                "commands": [
+                    "echo Compilation finished!"
+                ]
+            }
+        ]
     }
 }
