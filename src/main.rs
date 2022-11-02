@@ -55,9 +55,11 @@ r#"{
         directory = get_all_files(&root, &format);
         let temp: Vec<u64> = get_times(&directory);
 
-        if compare_times(&times, &temp) {
-            times = temp;
-            execute_args(&commands);
+        let compared_times = compare_times(&times, &temp);
+        if compared_times {
+            let changed_file = get_changed_file_name(&directory, &times);
+            times = temp.clone();
+            execute_args(&commands, &changed_file);
         }
 
         // Key events
@@ -70,7 +72,7 @@ r#"{
             keys_pressed = get_matching_keycodes(keys_pressed, &key_event);
             
             if keys_pressed.len() == key_event.len(){
-                execute_args(&i.clone().commands);
+                execute_args(&i.clone().commands, "");
             }
         }
 
@@ -79,7 +81,9 @@ r#"{
     }
 }
 
-fn execute_args(commands: &Vec<String>){
+fn execute_args(commands: &Vec<String>, file: &str){
+    let str = if !file.is_empty() {file} else {"!{$}"};
+    
     for i in commands{
         print!("{}",
             String::from_utf8
@@ -87,7 +91,7 @@ fn execute_args(commands: &Vec<String>){
                 Command::new("cmd")
                 .args(
                 [
-                    "/C", &i.to_string()
+                    "/C", &i.to_string().replace("!{$}", str)
                 ]
                 ).output().unwrap().stdout
             ).unwrap()

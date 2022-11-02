@@ -4,7 +4,7 @@
         "format": ".rs",
         "commands":[
             "cargo build",
-            "echo Compilation finished!"
+            "echo Compilation finished for !{$}!"
         ]
     },
     "keys": {
