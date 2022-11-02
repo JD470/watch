@@ -5,6 +5,14 @@ It also executes commands when one or multiple keys are pressed and you can make
 
 <br>
 
+To create a watch.json file, type this command:
+
+```
+watch init
+```
+
+<br>
+
 To use it, create a watch.json file, and then you'll need to at least put a watch section that should look like that modified to your need:
 
 ``` json
