@@ -1,6 +1,7 @@
 # watch
 
 watch is a program that notices a change in a file of a directory and sub-directories to then execute a list of given commands.
+It also executes commands when one or multiple keys are pressed and you can make multiple of these events.
 
 <br>
 
