@@ -40,7 +40,7 @@ r#"{
 
     let file = open_file("watch.json");
     
-    let to_watch: Watch = serde_json::from_str(file.as_str()).expect("JSON was not well-formatted");
+    let to_watch: Watch = miniserde::json::from_str(file.as_str()).expect("JSON was not well-formatted");
     let root = to_watch.watch.root;
     let format = to_watch.watch.format;
     let commands = to_watch.watch.commands;

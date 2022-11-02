@@ -1,4 +1,4 @@
-use serde_derive::Deserialize;
+use miniserde::{Deserialize};
 
 #[derive(Debug, Deserialize, Clone)]
 #[serde(rename_all = "snake_case")]
