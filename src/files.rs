@@ -76,3 +76,17 @@ pub fn open_file(filename: &str) -> String{
         )
     ).unwrap()
 }
+
+pub fn compare_times(temp1: &Vec<u64>, temp2: &Vec<u64>) -> bool{
+    if temp1.len() != temp2.len(){
+        return true;
+    }
+
+    for i in 0..temp1.len(){
+        if temp1[i] != temp2[i] {
+            return true;
+        }
+    }
+
+    false
+}

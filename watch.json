@@ -12,7 +12,7 @@
             {
                 "keys": ["LAlt", "LShift"],
                 "commands": [
-                    "echo Compilation finished!"
+                    "echo Running the program..."
                 ]
             }
         ]
