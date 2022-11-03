@@ -7,7 +7,7 @@ edition = "2021"
 
 [dependencies]
 device_query = "1.1.1"
-miniserde = { default-features = false, version = "0.1" }
+nanoserde = "0.1.30"
 
 [profile.release]
 panic = "abort"
