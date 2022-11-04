@@ -1,5 +1,5 @@
 {
-    "watch": {
+    "to_watch": {
         "root": "src/",
         "format": ".rs",
         "commands":[
