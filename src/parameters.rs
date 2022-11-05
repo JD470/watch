@@ -6,9 +6,13 @@ pub fn parse_parameters(){
         let mut watch = fs::File::create("watch.json").unwrap();
         watch.write_all(
 r#"{
-    "watch": {
-        "root": "src/",
-        "format": "",
+    "to_watch": {
+        "root": [
+            "src/"
+        ],
+        "format": [
+            
+        ],
         "commands":[
             
         ]

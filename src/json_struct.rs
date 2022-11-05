@@ -16,8 +16,8 @@ pub struct KeyEvent{
 #[derive(Debug, DeJson, Clone)]
 #[nserde(rename_all = "snake_case")]
 pub struct ToWatch {
-    pub root: String,
-    pub format: String,
+    pub root: Vec<String>,
+    pub format: Vec<String>,
     pub commands: Vec<String>
 }
 

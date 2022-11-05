@@ -1,7 +1,11 @@
 {
     "to_watch": {
-        "root": "src/",
-        "format": ".rs",
+        "root": [
+            "src/"
+        ],
+        "format": [
+            ".rs"
+        ],
         "commands":[
             "cargo build",
             "echo Compilation finished for !{$}!"

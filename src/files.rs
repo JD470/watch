@@ -1,5 +1,7 @@
 use std::{fs, os::windows::prelude::MetadataExt};
 
+use crate::json_struct::{ToWatch};
+
 pub fn get_folders(directory: &String) -> Vec<String>{
     let mut temp: Vec<String> = vec![];
 
@@ -78,6 +80,17 @@ pub fn get_changed_file_name(files: &Vec<String>, past_times: &Vec<u64>) -> Stri
         }
     }
     file
+}
+
+pub fn get_files_info(to_watch: &ToWatch) -> (Vec<String>, Vec<u64>) {
+    let mut ret_files: Vec<String> = Vec::new();
+    for i in &to_watch.root{
+        for j in &to_watch.format{
+            ret_files.extend(get_all_files(&i, &j));
+        }
+    }
+    let ret_times = get_times(&ret_files);
+    (ret_files, ret_times)
 }
 
 pub fn open_file(filename: &str) -> String{

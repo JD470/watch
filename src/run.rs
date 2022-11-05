@@ -12,18 +12,16 @@ pub fn run(){
     let to_watch = watch.to_watch;
     let keys = watch.keys;
     
-    let mut directory = get_all_files(&to_watch.root, &to_watch.format);
-    let mut times: Vec<u64> = get_times(&directory);
-
+    let (mut files, mut times) = get_files_info(&to_watch);
+    let mut temp: Vec<u64>;
     let key_events = keys.events;
     
     loop{
         // Watch
-        directory = get_all_files(&to_watch.root, &to_watch.format);
-        let temp: Vec<u64> = get_times(&directory);
+        (files, temp) = get_files_info(&to_watch);
 
         if compare_times(&times, &temp) {
-            let changed_file = get_changed_file_name(&directory, &times);
+            let changed_file = get_changed_file_name(&files, &times);
             times = temp;
             execute_commands(&to_watch.commands, &changed_file);
         }
