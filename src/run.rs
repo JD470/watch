@@ -7,7 +7,7 @@ use crate::json_struct::*;
 
 pub fn run(){
     let file = open_file("watch.json");
-    
+
     let watch: Watch = nanoserde::DeJson::deserialize_json(file.as_str()).expect("JSON was not well-formatted");
     let root = watch.to_watch.root;
     let format = watch.to_watch.format;
@@ -25,21 +25,21 @@ pub fn run(){
 
         if compare_times(&times, &temp) {
             let changed_file = get_changed_file_name(&directory, &times);
-            times = temp.clone();
+            times = temp;
             execute_commands(&commands, &changed_file);
         }
 
         // Key events
         for i in &key_events{
             let mut keys_pressed: Vec<Keycode> = get_keys_pressed();
-            if keys_pressed.len() != i.clone().keys.len(){
+            if keys_pressed.len() != i.keys.len(){
                 break;
             }
-            let key_event: Vec<Keycode> = string_list_to_keycode_list(i.clone().keys);
+            let key_event: Vec<Keycode> = string_list_to_keycode_list(&i.keys);
             keys_pressed = get_matching_keycodes(keys_pressed, &key_event);
             
             if keys_pressed.len() == key_event.len(){
-                execute_commands(&i.clone().commands, "");
+                execute_commands(&i.commands, "");
             }
         }
 
