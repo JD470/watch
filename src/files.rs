@@ -7,12 +7,12 @@ pub fn get_folders(directory: &String) -> Vec<String>{
         let temp1 = file.unwrap();
 
         if temp1.path().is_dir(){
-            if !directory.ends_with("/") {
-                temp.push(format!("{}/{}", directory,temp1.file_name().to_str().unwrap().to_string()));
+            if !directory.ends_with('/') {
+                temp.push(format!("{}/{}", directory,temp1.file_name().to_str().unwrap()));
             }
 
             else{
-                temp.push(format!("{}{}", directory,temp1.file_name().to_str().unwrap().to_string()));
+                temp.push(format!("{}{}", directory,temp1.file_name().to_str().unwrap()));
             }
         }
     }
@@ -58,7 +58,7 @@ pub fn get_all_files(root: &String, format: &str) -> Vec<String>{
 
     for i in folders{
         for j in get_files(&i, format){
-            ret.push(j.replace("\\", "/"));
+            ret.push(j.replace('\\', "/"));
         }
     }
 
@@ -66,15 +66,15 @@ pub fn get_all_files(root: &String, format: &str) -> Vec<String>{
 }
 
 pub fn get_times(files: &Vec<String>) -> Vec<u64>{
-    files.into_iter().map(|i| fs::metadata(i).unwrap().last_write_time()).collect()
+    files.iter().map(|i| fs::metadata(i).unwrap().last_write_time()).collect()
 }
 
 pub fn get_changed_file_name(files: &Vec<String>, past_times: &Vec<u64>) -> String{
     let mut file: String = String::new();
     
     for i in 0..files.len(){
-        if fs::metadata(files.into_iter().nth(i).unwrap()).unwrap().last_write_time() != past_times[i] {
-            file = files.into_iter().nth(i).unwrap().to_string();
+        if fs::metadata(files.get(i).unwrap()).unwrap().last_write_time() != past_times[i] {
+            file = files.get(i).unwrap().to_string();
         }
     }
     file

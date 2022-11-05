@@ -7,7 +7,7 @@ pub fn get_keys_pressed() -> Vec<Keycode>{
 }
 
 pub fn string_list_to_keycode_list(strings: &Vec<String>) -> Vec<Keycode>{
-    strings.into_iter().map(|x| Keycode::from_str(&x).unwrap()).collect()
+    strings.iter().map(|x| Keycode::from_str(x).unwrap()).collect()
 }
 
 pub fn get_matching_keycodes(list: Vec<Keycode>, other: &Vec<Keycode>) -> Vec<Keycode>{

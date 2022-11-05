@@ -1,8 +1,8 @@
-use std::{str::FromStr, fs, io::Write};
+use std::{fs, io::Write};
 
 pub fn parse_parameters(){
-    let args: Vec<String> = std::env::args().collect();
-    if args.contains(&String::from_str("init").unwrap()){
+    let mut args = std::env::args();
+    if args.any(|x| x == "init".to_string()){
         let mut watch = fs::File::create("watch.json").unwrap();
         watch.write_all(
 r#"{
