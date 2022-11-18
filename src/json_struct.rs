@@ -2,12 +2,6 @@ use nanoserde::{DeJson};
 
 #[derive(Debug, DeJson, Clone)]
 #[nserde(rename_all = "snake_case")]
-pub struct KeyEvents{
-    pub events: Vec<KeyEvent>
-}
-
-#[derive(Debug, DeJson, Clone)]
-#[nserde(rename_all = "snake_case")]
 pub struct KeyEvent{
     pub keys: Vec<String>,
     pub commands: Vec<String>
@@ -25,5 +19,5 @@ pub struct ToWatch {
 #[nserde(rename_all = "snake_case")]
 pub struct Watch{
     pub to_watch: ToWatch,
-    pub keys: KeyEvents
+    pub key_events: Vec<KeyEvent>
 }

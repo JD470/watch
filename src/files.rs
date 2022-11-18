@@ -3,47 +3,42 @@ use std::{fs, os::windows::prelude::MetadataExt};
 use crate::json_struct::{ToWatch};
 
 pub fn get_folders(directory: &String) -> Vec<String>{
-    let mut temp: Vec<String> = vec![];
+    let mut folders: Vec<String> = vec![];
 
     for file in fs::read_dir(directory).unwrap(){
-        let temp1 = file.unwrap();
+        let current_file = file.unwrap();
 
-        if temp1.path().is_dir(){
+        if current_file.path().is_dir(){
             if !directory.ends_with('/') {
-                temp.push(format!("{}/{}", directory,temp1.file_name().to_str().unwrap()));
+                folders.push(format!("{}/{}", directory,current_file.file_name().to_str().unwrap()));
             }
 
             else{
-                temp.push(format!("{}{}", directory,temp1.file_name().to_str().unwrap()));
+                folders.push(format!("{}{}", directory,current_file.file_name().to_str().unwrap()));
             }
         }
     }
-    temp
+
+    folders
 }
 
 pub fn get_all_folders(root: &String) -> Vec<String>{
-    let mut ret: Vec<String> = vec![];
-    let mut temp: Vec<String> = get_folders(root);
-    let mut temp1: Vec<String>;
+    let mut ret_folders: Vec<String> = vec![];
+    let mut folders: Vec<String> = get_folders(root);
+    let mut temp: Vec<String>;
 
     loop {
-        for i in temp.clone(){
-            ret.push(i);
+        ret_folders.extend(folders.clone());
+
+        temp = folders;
+        folders = vec![];
+
+        for directory in temp{
+            folders.extend(get_folders(&directory));
         }
 
-        temp1 = temp;
-        temp = vec![];
-
-        for i in temp1{
-            let folders = get_folders(&i);
-
-            for j in folders{
-                temp.push(j);
-            }
-        }
-
-        if temp.is_empty() {
-            return ret;
+        if folders.is_empty() {
+            return ret_folders;
         }
     }
 }
@@ -55,16 +50,16 @@ pub fn get_files(directory: &String, format: &str) -> Vec<String>{
 }
 
 pub fn get_all_files(root: &String, format: &str) -> Vec<String>{
-    let mut ret: Vec<String> = get_files(root, format);
+    let mut files: Vec<String> = get_files(root, format);
     let folders = get_all_folders(root);
 
-    for i in folders{
-        for j in get_files(&i, format){
-            ret.push(j.replace('\\', "/"));
+    for folder in folders{
+        for file in get_files(&folder, format){
+            files.push(file.replace('\\', "/"));
         }
     }
 
-    ret
+    files
 }
 
 pub fn get_times(files: &Vec<String>) -> Vec<u64>{
@@ -79,26 +74,25 @@ pub fn get_changed_file_name(files: &Vec<String>, past_times: &Vec<u64>) -> Stri
             file = files.get(i).unwrap().to_string();
         }
     }
+
     file
 }
 
 pub fn get_files_info(to_watch: &ToWatch) -> (Vec<String>, Vec<u64>) {
     let mut ret_files: Vec<String> = Vec::new();
-    for i in &to_watch.root{
-        for j in &to_watch.format{
-            ret_files.extend(get_all_files(&i, &j));
+
+    for root in &to_watch.root{
+        for format in &to_watch.format{
+            ret_files.extend(get_all_files(root, format));
         }
     }
     let ret_times = get_times(&ret_files);
+
     (ret_files, ret_times)
 }
 
 pub fn open_file(filename: &str) -> String{
-    String::from_utf8(
-        fs::read(filename)
-            .expect(&format!("{} was not found", filename)
-        )
-    ).unwrap()
+    fs::read_to_string(filename).expect(&format!("{} was not found", filename))
 }
 
 pub fn compare_times(temp1: &Vec<u64>, temp2: &Vec<u64>) -> bool{

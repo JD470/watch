@@ -11,14 +11,12 @@
             "echo Compilation finished for !{$}!"
         ]
     },
-    "keys": {
-        "events":[
-            {
-                "keys": ["LAlt", "LShift"],
-                "commands": [
-                    "start cargo run"
-                ]
-            }
-        ]
-    }
+    "key_events": [
+        {
+            "keys": ["LAlt", "LShift"],
+            "commands": [
+                "start cargo run"
+            ]
+        }
+    ]
 }

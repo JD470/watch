@@ -17,16 +17,14 @@ r#"{
             
         ]
     },
-    "keys": {
-        "events":[
-            {
-                "keys": [],
-                "commands": [
-                    
-                ]
-            }
-        ]
-    }
+    "key_events": [
+        {
+            "keys": [],
+            "commands": [
+                
+            ]
+        }
+    ]
 }"#.as_bytes()).unwrap();
         println!("A new watch file has been created!");
         std::process::exit(0);

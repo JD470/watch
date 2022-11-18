@@ -5,16 +5,17 @@ use crate::files::*;
 use crate::keys::*;
 use crate::json_struct::*;
 
-pub fn run(){
-    let file = open_file("watch.json");
+#[allow(unused_assignments)]
 
-    let watch: Watch = nanoserde::DeJson::deserialize_json(file.as_str()).expect("JSON was not well-formatted");
+pub fn run(){
+    let watch_file = open_file("watch.json");
+    
+    let watch: Watch = nanoserde::DeJson::deserialize_json(&watch_file).expect("JSON was not well-formatted");
     let to_watch = watch.to_watch;
-    let keys = watch.keys;
+    let key_events = watch.key_events;
     
     let (mut files, mut times) = get_files_info(&to_watch);
     let mut temp: Vec<u64>;
-    let key_events = keys.events;
     
     loop{
         // Watch
@@ -56,7 +57,7 @@ fn execute_commands(commands: &Vec<String>, file: &str){
                 Command::new("cmd")
                 .args(
                 [
-                    "/C", &i.to_string().replace("!{$}", str)
+                    "/C", &i.replace("!{$}", str)
                 ]
                 ).output().unwrap().stdout
             ).unwrap()
