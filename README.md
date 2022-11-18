@@ -1,19 +1,24 @@
 # watch
 
-watch is a program that notices a change in a file of a directory and sub-directories to then execute a list of given commands.
-It also executes commands when one or multiple keys are pressed and you can make multiple of these events.
+watch is a program that looks for a change in a directory and sub-directories to then execute a list of given commands.
+It also executes commands when one or multiple keys are pressed.
 
 <br>
 
-To create a watch.json file, type this command:
+# Installation guide
+
+Execute this command to install this program:
+```
+cargo install --path .
+``` 
+
+To create a watch.json file in a directory, type this command:
 
 ```
 watch init
 ```
 
-<br>
-
-To use it, create a watch.json file, and then you'll need to at least put a watch section that should look like that modified to your need:
+# watch.json example
 
 ``` json
 {
@@ -29,16 +34,14 @@ To use it, create a watch.json file, and then you'll need to at least put a watc
             "echo Compilation finished for !{$}!"
         ]
     },
-    "keys": {
-        "events":[
-            {
-                "keys": ["LAlt", "LShift"],
-                "commands": [
-                    "start cargo run"
-                ]
-            }
-        ]
-    }
+    "key_events": [
+        {
+            "keys": ["LAlt", "LShift"],
+            "commands": [
+                "start cargo run"
+            ]
+        }
+    ]
 }
 ```
 
